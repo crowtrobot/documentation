@@ -101,27 +101,27 @@ Then write the role's tasks/main.yaml:
 
 And the syslog config file template:
 
-`# TODO: Once this works, come back and change to a template that can allow`
-`\# dividing he logs out to separate sections for the different VLANs.`
-`\# Network source`
+`# TODO: Once this works, come back and change to a template that can allow`\
+`# dividing he logs out to separate sections for the different VLANs.`\
+`# Network source`
 
-source s\_net\_all {
-\# For TCP
-\# I don't think that's what IP to bind to
-tcp(port(514));
-\# For UDP
-udp(port(514));
-\# For the IETF syslog standard?
-syslog(
-flags(no-multi-line)
-ip(\{{ ansible\_host \}})
-keep-alive(yes)
-keep\_hostname(yes)
-transport(udp)
-\# it's possible to include TLS it seems
-\# tls()
-);
-};
+`source s_net_all {`
+&#x20; `# For TCP`
+&#x20; `# I don't think that's what IP to bind to`
+&#x20; `tcp(port(514));`
+&#x20; `# For UDP`
+&#x20; `udp(port(514));`
+&#x20; `# For the IETF syslog standard?`
+&#x20; `syslog(`
+&#x20; `flags(no-multi-line)`
+&#x20; `ip({{ ansible_host }})`
+&#x20; `keep-alive(yes)`
+&#x20; `keep_hostname(yes)`
+&#x20; `transport(udp)`
+&#x20; `# it's possible to include TLS it seems`
+&#x20; `# tls()`
+&#x20; `);`
+`};`
 
 \# Destination, what file(s) to send message to
 \{% for network in syslog\_networks %\}
