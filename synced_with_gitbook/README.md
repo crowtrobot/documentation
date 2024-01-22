@@ -101,92 +101,53 @@ Then write the role's tasks/main.yaml:
 
 And the syslog config file template:
 
-\# TODO: Once this works, come back and change to a template that can allow
-
-\# dividing he logs out to separate sections for the different VLANs.
-
-\# Network source
+`# TODO: Once this works, come back and change to a template that can allow`
+`\# dividing he logs out to separate sections for the different VLANs.`
+`\# Network source`
 
 source s\_net\_all {
-
 \# For TCP
-
 \# I don't think that's what IP to bind to
-
 tcp(port(514));
-
 \# For UDP
-
 udp(port(514));
-
 \# For the IETF syslog standard?
-
 syslog(
-
 flags(no-multi-line)
-
 ip(\{{ ansible\_host \}})
-
 keep-alive(yes)
-
 keep\_hostname(yes)
-
 transport(udp)
-
 \# it's possible to include TLS it seems
-
 \# tls()
-
 );
-
 };
 
 \# Destination, what file(s) to send message to
-
 \{% for network in syslog\_networks %\}
-
 destination d\_\{{ network.name \}}\_net {
-
 file("/data/logs/\{{ network.name \}}/$HOST/$YEAR/$MONTH/$DAY/$FACILITY.log" \\
-
 owner(root) group(root) perm(0644) dir\_perm(0755) create\_dirs(yes));
-
 };
 
 destination d\_\{{ network.name \}}\_net\_all {
-
 file("/data/logs/\{{ network.name \}}/$HOST/$YEAR/$MONTH/$DAY/all.log" \\
-
 owner(root) group(root) perm(0644) dir\_perm(0755) create\_dirs(yes));
-
 };
 
 \{% endfor %\}
-
 \# filters
-
 \{% for network in syslog\_networks %\}
-
 filter f\_\{{ network.name \}}\_net { ( netmask(\{{ network.net \}})) };
-
 \{% endfor %\}
-
 \# Log directive says what source to put through what filter to decide
-
 \# what destination
-
 \{% for network in syslog\_networks %\}
-
 log {
-
 source(s\_net\_all);
-
 filter(f\_\{{ network.name \}}\_net);
-
 destination(d\_\{{ network.name \}}\_net);
-
 destination(d\_\{{ network.name \}}\_net\_all);
-
 };
 
 \{% endfor %\}
