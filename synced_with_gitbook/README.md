@@ -45,26 +45,28 @@ I don't have definite plans, but might someday want to try something like logsta
 * Step1, pick an IP. I picked 253 from the main network because it is free.
 * Step2, add it to the ansible inventory:
 
-    syslog-server:
-        ansible_host: x.x.x.253
-        auto_install_normal_updates: yes
-        update_auto_reboot_time: "04:50
+
+        syslog-server:
+            ansible_host: x.x.x.253
+            auto_install_normal_updates: yes
+            update_auto_reboot_time: "04:50
+
 
 * Step3, make a playbook:
 
-    - name: Setup central syslog logging server
-      roles:
-      - luks-root-volume
-      - grow-root-fs
-      - common
-      - automatic-updates
-      - snmp
-      - syslog-ng-serve
+        - name: Setup central syslog logging server
+          roles:
+          - luks-root-volume
+          - grow-root-fs
+          - common
+          - automatic-updates
+          - snmp
+          - syslog-ng-serve
 
 * Step 4, make the role:
 
-    cd roles
-    ansible-galaxy init syslog-ng-serve
+        cd roles
+        ansible-galaxy init syslog-ng-serve
 
 Then write the role's tasks/main.yaml:
 
