@@ -1,7 +1,6 @@
 ---
 description: >-
-  I should have made a syslog server a long time ago, but the second best time \
-  is now.
+  I should have made a syslog server a long time ago, but the second best time is now.
 ---
 
 # A centralized log server
@@ -46,54 +45,54 @@ I don't have definite plans, but might someday want to try something like logsta
 * Step1, pick an IP. I picked 253 from the main network because it is free.
 * Step2, add it to the ansible inventory:
 
-`syslog-server:`\
-`    ansible_host: x.x.x.253`\
-`    auto_install_normal_updates: yes`\
-`    update_auto_reboot_time: "04:50"`
+    syslog-server:
+        ansible_host: x.x.x.253
+        auto_install_normal_updates: yes
+        update_auto_reboot_time: "04:50
 
 * Step3, make a playbook:
 
-`- name: Setup central syslog logging server`\
-`  roles:`\
-`  - luks-root-volume`\
-`  - grow-root-fs`\
-`  - common`\
-`  - automatic-updates`\
-`  - snmp`\
-`  - syslog-ng-server`
+    - name: Setup central syslog logging server
+      roles:
+      - luks-root-volume
+      - grow-root-fs
+      - common
+      - automatic-updates
+      - snmp
+      - syslog-ng-serve
 
 * Step 4, make the role:
 
-`cd roles`\
-`ansible-galaxy init syslog-ng-server`
+    cd roles
+    ansible-galaxy init syslog-ng-serve
 
 Then write the role's tasks/main.yaml:
 
-`- name: Install required packages`\
-`  apt:`\
-`    name: "{{ packages }}"`\
-`    state: present`\
-`  vars:`\
-`    packages:`\
-`      - syslog-ng`\
-`  notify: restart syslog-ng`\
+    - name: Install required packages
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - syslog-ng
+      notify: restart syslog-ng
 
-`- name: Create network log data location`\
-`  file:`\
-`    dest: /data/logs`\
-`    owner: root`\
-`    group: root`\
-`    mode: "0755"`\
-`    state: directory`
+    - name: Create network log data location
+      file:
+        dest: /data/logs
+        owner: root
+        group: root
+        mode: "0755"
+        state: directory
 
-`- name: Copy syslog config for listening on the network`\
-`  template:`\
-`    src: logs_from_network.conf.j2`\
-`    dest: /etc/syslog-ng/conf.d/logs_from_network.conf`\
-`    owner: root`\
-`    group: root`\
-`    mode: "0644"`\
-`  notify: restart syslog-ng`
+    - name: Copy syslog config for listening on the network
+      template:
+        src: logs_from_network.conf.j2
+        dest: /etc/syslog-ng/conf.d/logs_from_network.conf
+        owner: root
+        group: root
+        mode: "0644"
+      notify: restart syslog-ng
 
 
 
@@ -101,60 +100,60 @@ Then write the role's tasks/main.yaml:
 
 And the syslog config file template:
 
-`# TODO: Once this works, come back and change to a template that can allow`\
-`# dividing he logs out to separate sections for the different VLANs.`\
-`# Network source`
+    # TODO: Once this works, come back and change to a template that can allow
+    # dividing he logs out to separate sections for the different VLANs.
+    # Network source
 
-`source s_net_all {`\
-`  # For TCP`\
-`  # I don't think that's what IP to bind to`\
-`  tcp(port(514));`\
-`  # For UDP`\
-`  udp(port(514));`\
-`  # For the IETF syslog standard?`\
-`  syslog(`\
-`    flags(no-multi-line)`\
-`    ip({{ ansible_host }})`\
-`    keep-alive(yes)`\
-`    keep_hostname(yes)`\
-`    transport(udp)`\
-`    # it's possible to include TLS it seems`\
-`    # tls()`\
-`  );`\
-`};`\
+      source s_net_all {
+      # For TCP
+      # I don't think that's what IP to bind to
+      tcp(port(514));
+      # For UDP
+      udp(port(514));
+      # For the IETF syslog standard?
+      syslog(
+        flags(no-multi-line)
+        ip({{ ansible_host }})
+        keep-alive(yes)
+        keep_hostname(yes)
+        transport(udp)
+        # it's possible to include TLS it seems
+        # tls()
+      );
+    };
 
-`# Destination, what file(s) to send message to`
-`{% for network in syslog_networks %}`
-`destination d_{{ network.name }}_net {`
-`  file("/data/logs/\{{ network.name \}}/$HOST/$YEAR/$MONTH/$DAY/$FACILITY.log" \`
-`  owner(root) group(root) perm(0644) dir_perm(0755) create_dirs(yes));`
-`};`
+    # Destination, what file(s) to send message to
+    {% for network in syslog_networks %}
+    destination d_{{ network.name }}_net {
+      file("/data/logs/{{ network.name }}/$HOST/$YEAR/$MONTH/$DAY/$FACILITY.log" 
+      owner(root) group(root) perm(0644) dir_perm(0755) create_dirs(yes));
+    };
 
-`destination d_\{{ network.name \}}_net_all {`
-`  file("/data/logs/\{{ network.name \}}/$HOST/$YEAR/$MONTH/$DAY/all.log" \`
-`  owner(root) group(root) perm(0644) dir_perm(0755) create_dirs(yes)); `
-`};`
+    destination d_{{ network.name }}_net_all {
+      file("/data/logs/{{ network.name }}/$HOST/$YEAR/$MONTH/$DAY/all.log" 
+      owner(root) group(root) perm(0644) dir_perm(0755) create_dirs(yes)); 
+    };
 
-`{% endfor %}`
-`# filters`
-`{% for network in syslog_networks %}`
-`filter f_{{ network.name \}}_net { ( netmask(\{{ network.net \}})) };`
-`{% endfor %\}`
-`# Log directive says what source to put through what filter to decide`
-`# what destination`
-`{% for network in syslog_networks %\}`
-`log {`
-`  source(s_net_all);`
-`  filter(f_{{ network.name }}_net);`
-`  destination(d_{{ network.name }}_net);`
-`  destination(d_{{ network.name }}_net_all);`
-`};`
+    {% endfor %}
+    # filters
+    {% for network in syslog_networks %}
+    filter f_{{ network.name }}_net { ( netmask({{ network.net }})) };
+    {% endfor %}
+    # Log directive says what source to put through what filter to decide
+    # what destination
+    {% for network in syslog_networks %}
+    log {
+      source(s_net_all);
+      filter(f_{{ network.name }}_net);
+      destination(d_{{ network.name }}_net);
+      destination(d_{{ network.name }}_net_all);
+    };
 
-`{% endfor %}`
+    {% endfor %}
 
 So, now it's as easy as going to the proxmox host, deploying the VM from my template, set the IP in the cloudinit, and power it on. Once it has booted, just run the ansible playbook, and it's ready.
 
-`ansible-playbook -i inventory.yaml --ask-vault-pass syslog_server_playbook.yaml`
+    ansible-playbook -i inventory.yaml --ask-vault-pass syslog_server_playbook.yaml
 
 Then I made an asnsible playbook that can run on other machines to tell them to send logs to the syslog server. I called that syslog-send-logs. The tasks/main.yml says:
 
