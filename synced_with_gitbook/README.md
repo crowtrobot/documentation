@@ -70,8 +70,8 @@ I don't have definite plans, but might someday want to try something like logsta
 Then write the role's tasks/main.yaml:
 
 `- name: Install required packages`\
-&#x20; `apt:`\
-&#x20;   `name: "{{ packages }}"`\
+`&#x20; apt:`\
+`    name: "{{ packages }}"`\
 &#x20;   `state: present`\
 &#x20; `vars:`\
 &#x20;   `packages:`\
