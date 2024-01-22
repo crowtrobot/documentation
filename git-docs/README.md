@@ -4,6 +4,6 @@ This is just a place for me to publish some notes / guides I've written.  Mostly
 
 
 
-Everything here is copyright ⓒ 2024 by me.  License Create Commons Attribution-NonCommercial-ShareAlike 4.0 International
+Everything here is copyright ⓒ 2024 by me.  License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
 
 [https://creativecommons.org/licenses/by-nc-sa/4.0/](https://creativecommons.org/licenses/by-nc-sa/4.0/)
