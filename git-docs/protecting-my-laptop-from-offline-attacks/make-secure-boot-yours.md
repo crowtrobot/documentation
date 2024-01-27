@@ -8,7 +8,7 @@ description: Configuring secure boot to use your own certificate instead of Micr
 
 I wanted to learn more about secure boot. I knew some of what happens with it, but not as much as I thought I knew. For example, I was surprised to learn that the TPM is related, but isn't really required in secure boot. You can add in security features from the TPM to improve security, Secure Boot is really just about verifying that whatever you boot is signed by a trusted certificate. &#x20;
 
-Normal secure boot is designed so that parts of the boot process are prevented from running untrusted code. This is enforced by verifying that the file's hash is on the approved list, or that it is signed by a CA that is approved. Unfortunately this seems to have created a scenario where if someone pays for a signature that doesn't really mean that the software is secure \[1]. Or they can find a vulnerability in a trusted program (maybe one of the known vulnerabilities MS has patched, but not yet blacklisted for whatever reason \[2]).  Or if they try hard enough to find online the private key for gigabyte motherboards that recently leaked.  Or just get Microsoft to directly sign the malware \[3].
+Normal secure boot is designed so that parts of the boot process are prevented from running untrusted code. This is enforced by verifying that the file's hash is on the approved list, or that it is signed by a CA that is approved. Unfortunately this seems to have created a scenario where if someone pays for a signature that doesn't really mean that the software is secure \[[1](https://thehackernews.com/2022/08/researchers-uncover-uefi-secure-boot.html)]. Or they can find a vulnerability in a trusted program (maybe one of the known vulnerabilities MS has patched, but not yet blacklisted for whatever reason \[[2](https://arstechnica.com/information-technology/2023/03/unkillable-uefi-malware-bypassing-secure-boot-enabled-by-unpatchable-windows-flaw/)]).  Or if they try hard enough to find online the private key for gigabyte motherboards that recently leaked.  Or just get Microsoft to directly sign the malware \[[3](https://arstechnica.com/gadgets/2021/06/microsoft-digitally-signs-malicious-rootkit-driver/)].
 
 1 https://thehackernews.com/2022/08/researchers-uncover-uefi-secure-boot.html
 
@@ -34,7 +34,7 @@ You should take some care to make sure the initrd is also validated.  For this d
 
 ## How Secure Boot works
 
-Sources: \
+Sources/references: \
 https://ubuntu.com/blog/how-to-sign-things-for-secure-boot \
 https://wiki.debian.org/SecureBoot https://wiki.gentoo.org/wiki/User:Sakaki/Sakaki%27s\_EFI\_Install\_Guide/Configuring\_Secure\_Boot
 
@@ -87,16 +87,24 @@ cert-to-efi-sig-list -g "$(uuidgen)" PK.crt PK.esl
 ```
 
 Then I think this command signs that file, using the key and cert for the PK.\
-`sign-efi-sig-list -k PK.key -c PK.crt PK PK.esl PK.auth`
+```
+sign-efi-sig-list -k PK.key -c PK.crt PK PK.esl PK.auth
+```
 
 And then the same to make the file for the KEK (signed by the PK) \
-`cert-to-efi-sig-list -g "$(uuidgen)" KEK.crt KEK.esl sign-efi-sig-list -a -k PK.key -c PK.crt KEK KEK.esl KEK.auth`
+```
+cert-to-efi-sig-list -g "$(uuidgen)" KEK.crt KEK.esl sign-efi-sig-list -a -k PK.key -c PK.crt KEK KEK.esl KEK.auth
+```
 
 And the same again for the db \
-`cert-to-efi-sig-list -g "$(uuidgen)" db.crt db.esl sign-efi-sig-list -a -k KEK.key -c KEK.crt db db.esl db.auth`
+```
+cert-to-efi-sig-list -g "$(uuidgen)" db.crt db.esl sign-efi-sig-list -a -k KEK.key -c KEK.crt db db.esl db.auth
+```
 
 And once more for the DBX (if you don't make one, you can't later add things to it).\
-`cert-to-efi-sig-list -g "$(uuidgen)" dbx.crt dbx.esl sign-efi-sig-list -a -k KEK.key -c KEK.crt dbx dbx.esl dbx.auth`
+```
+cert-to-efi-sig-list -g "$(uuidgen)" dbx.crt dbx.esl sign-efi-sig-list -a -k KEK.key -c KEK.crt dbx dbx.esl dbx.auth
+```
 
 If you look around the internet there are steps for exporting the original DBX so you can import it into your new one.  I didn't bother.  If I encounter malware old enough to be known to the DBX that came with the computer, but I haven't signed it with my certificate, it will be just as untrusted as it would be if it was in the DBX.  I just need to be careful not to sign suspicious things. &#x20;
 
@@ -235,6 +243,6 @@ The next step I think will be to change the LUKS key so it's mixing in a pin, yu
 
 ## Known Problems For This Implementation
 
-If something triggers an update to the initrd (update-initramfs), it will break booting. This will replace the kernel and initrd in the EFI partition with the un-signed versions. I can add a script to /etc/initramfs/post-update.d like I did for the post kernel install, but the script I already wrote would need some changes. Also some testing would be needed to verify that when installing a new kernel I don't replace the files from kernel stub in the initrd stuff, and then fail to install it in the kernel postinstall.  Not hard, I just haven't done it yet. &#x20;
+If something triggers an update to the initrd (update-initramfs), it will break booting. This will replace the kernel and initrd in the EFI partition with the un-signed versions. I can add a script to /etc/initramfs/post-update.d like I did for the post kernel install, but the script I already wrote would need some changes. Also some testing would be needed to verify that when installing a new kernel I don't replace the files from kernel stub in the initrd stuff, and then fail to install it in the kernel postinstall.  Not hard, I just haven't done it yet. 
 
-This seems to slightly upset kernelstub, and it might never get the previous kernel set up. It would be better for my script to entirely replace kernelstub I think, but that seems like a lot of work. It looks like sysemd is working on a program called kernel-install that seems like it would replace most of what I've done, and kernelstub. It looks like there's parts that depend on newer systemd that what I've got. I suspect that in the next major release of pop I might be able to switch up to using someone else's tested and better written code. This has been an effective excuse for me to put off the final fixes I was thinking about doing. &#x20;
+This seems to slightly upset kernelstub, and it might never get the previous kernel set up. It would be better for my script to entirely replace kernelstub I think, but that seems like a lot of work. It looks like sysemd is working on a program called kernel-install that seems like it would replace most of what I've done, and kernelstub. It looks like there's parts that depend on newer systemd that what I've got. I suspect that in the next major release of pop I might be able to switch up to using someone else's tested and better written code. This has been an effective excuse for me to put off the final fixes I was thinking about doing. 
