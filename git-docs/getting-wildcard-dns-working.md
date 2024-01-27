@@ -1,6 +1,6 @@
 # Getting Wildcard DNS working
 
-## What's the goal?&#x20;
+## What's the goal?
 
 Nextcloud's built-in collabra server seems to have stopped working. If I install that nextcloud app, I start getting gateway timeouts. So I might want to install a separate collabra VM. But that's going to need another subdomain, and that means some work to change the names in the certificate. So I've decided that instead I want a wildcard cert.
 
@@ -34,7 +34,7 @@ Now we need pfsense to be able to update the @ record when the IP the ISP is giv
 
 Click the little pencil next to the token name, and set a name that will help you recognize this token later, something like "Dynamic DNS on pfsense".
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption><p>API token screen from CloudFlare</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption><p>API token screen from CloudFlare</p></figcaption></figure>
 
 In the top section, "zone" "DNS" and "Edit" will already be selected, so leave that. In the next section we will choose "Include" "specific zone" and then need to chose our domain here. I actually have 2 domains now getting DNS from cloudflare, so I will also click "add more" so I have a row for each domain. This way if I add more, they aren't automatically covered by this API token.
 
