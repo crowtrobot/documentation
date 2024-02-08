@@ -140,7 +140,7 @@ efi-updatevar -e -f db.esl db
 efi-updatevar -e -f KEK.esl KEK
 ```
 
-I think `efi-updatevar -e -f dbx.esl dbx` would normally also make a dbx, but it seems my system won't let me do a dbx when running in custom mode. I can restore the factory default dbx, but I can't update it or add to it. TODO: Need to look into this some more, it seems like I should be able to add to the DBX
+I think `efi-updatevar -e -f dbx.esl dbx` would normally also make a dbx, but it seems my system won't let me do a dbx when running in custom mode. I can restore the factory default dbx, but I can't update it or add to it. TODO: Need to look into this some more, it seems like I should be able to add to the DBX.  This did work with another PC. &#x20;
 
 The -e says that these are signed with this key, but since we are in setup mode we don't need these things to be signed, so can leave it blank, I guess. Anyway, now we load the PK.\
 `efi-updatevar -f PK.auth PK`
