@@ -165,7 +165,9 @@ It should say that each of those file we pulled out of the EFI is identical to t
 For this we will try `pesign`. It seems there are a few tools that can be used, but this is the one that seems simplest. First, we need to put the db cert into a pkcs12 file, and then import it.
 
 ```
-openssl pkcs12 -export -out db.p12 -inkey db.key -in db.crt pk12util -i db.p12 -d /etc/pki/pesign
+mkdir /etc/pki/pesign
+openssl pkcs12 -export -out db.p12 -inkey db.key -in db.crt
+pk12util -i db.p12 -d /etc/pki/pesign
 ```
 
 Then we can sign the boot loader:
