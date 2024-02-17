@@ -10,7 +10,7 @@
   * [Template v2.0 With LUKS Built-in](vm-template-for-servers/template-v2.0-with-luks-built-in/README.md)
     * [The Ansible Role For LUKS VM template](vm-template-for-servers/template-v2.0-with-luks-built-in/the-ansible-role-for-luks-vm-template.md)
 * [A smarter (and safer) Plex installation](a-smarter-and-safer-plex-installation.md)
-* [Protecting My Laptop From Offline Attacks](protecting-my-laptop-from-offline-attacks/README.md)
+* [Protecting Your Laptop From Offline Attacks](protecting-my-laptop-from-offline-attacks/README.md)
   * [Root in LUKS Volume](protecting-my-laptop-from-offline-attacks/root-in-luks-volume.md)
   * [Measured Boot with TPM](protecting-my-laptop-from-offline-attacks/measured-boot-with-tpm.md)
   * [Make Secure Boot Yours](protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md)
