@@ -14,3 +14,5 @@
   * [Root in LUKS Volume](protecting-my-laptop-from-offline-attacks/root-in-luks-volume.md)
   * [Measured Boot with TPM](protecting-my-laptop-from-offline-attacks/measured-boot-with-tpm.md)
   * [Make Secure Boot Yours](protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md)
+* [Linux cluster using pacemaker](linux-cluster-using-pacemaker/README.md)
+  * [Creating a Proxmox user for fencing](linux-cluster-using-pacemaker/creating-a-proxmox-user-for-fencing.md)
