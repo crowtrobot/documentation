@@ -12,6 +12,8 @@ There's some other stuff to investigate here too, like using Shamir's Secret Sha
 
 So, for the first test, I just made a regular ubuntu desktop VM with the root filesystem in a LUKS encrypted volume (using LUKS2 headers).  Then installed clevis, clevis-luks, and clevis-initramfs, and add the key from tang as a password in LUKS.  That is done with this command
 
-&#x20;`clevis luks bind -d /dev/sda2 -s8 -y tang '{"url":"http://192.168.x.254/"}'`&#x20;
+&#x20;`clevis luks bind -d /dev/sda2 -s8 -y tang '{"url":"http://192.168.168.254/"}'`&#x20;
 
-That tells clevis to make a password for LUKS on /dev/sda2 with the tang server at 192.168.68.254, and put it in key slot 8 in the LUKS header (so I can easily tell it apart from the normal passwords).  Now during boot it will ask for the LUKS password on the boot screen, but if I just wait a moment it will get the password from tang, and unlock LUKS.  Obviously if it can't (network down, or the tang server not available), it will still accept the password I had set before (keyslot 0). &#x20;
+That tells clevis to make a password for LUKS on /dev/sda2 with the tang server at 192.168.168.254, and put it in key slot 8 in the LUKS header (so I can easily tell it apart from the normal passwords).  Now during boot it will ask for the LUKS password on the boot screen, but if I just wait a moment it will get the password from tang, and unlock LUKS.  Obviously if it can't (network down, or the tang server not available), it will still accept the password I had set before (keyslot 0). &#x20;
+
+TODO: Write up a doc on Network Bound Disk Encryption (fancy name for what clevis and tang do), and link here.  
