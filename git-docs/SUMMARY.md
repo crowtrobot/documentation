@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Intro](README.md)
-* [Syslog Server](syslog\_server.md)
+* [Syslog Server](syslog_server.md)
 * [Getting Wildcard DNS working](getting-wildcard-dns-working.md)
 * [VM Template for servers](vm-template-for-servers/README.md)
   * [Overview of Deploying VM](vm-template-for-servers/overview-of-deploying-vm.md)
@@ -16,3 +16,4 @@
   * [Make Secure Boot Yours](protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md)
 * [Linux cluster using pacemaker](linux-cluster-using-pacemaker/README.md)
   * [Creating a Proxmox user for fencing](linux-cluster-using-pacemaker/creating-a-proxmox-user-for-fencing.md)
+* [Switching Seafile to use the Docker version](switching-seafile-to-use-the-docker-version.md)
