@@ -153,26 +153,28 @@ Paste in:&#x20;
 
 ```
 [Unit]
-Description=Seafile Podman containers via docker-compose
+Description=Podman container for %i
+Documentation=man:podman-generate-systemd(1)
 Wants=network-online.target
 After=network-online.target
+RequiresMountsFor=/run/user/1001/containers
 RequiresMountsFor=/seafile-data
-Requires=podman.socket mariadb.service memcached.service 
 
 [Service]
 Environment=PODMAN_SYSTEMD_UNIT=%n
-Environment=PODMAN_USERNS=keep-id
-Environment=COMPOSE_HTTP_TIMEOUT=300
-Restart=always
-TimeoutStartSec=60
+Restart=on-failure
 TimeoutStopSec=60
-ExecStart=/usr/bin/docker-compose -H unix:///run/user/1001/podman/podman.sock up
-ExecStop=/usr/bin/docker-compose -H unix:///run/user/1001/podman/podman.sock down
-Type=simple
-WorkingDirectory=/seafile-data/docker
+ExecStart=/usr/bin/podman start --common-pidfile=/run/user/1001/containers/%i %i
+ExecStop=/usr/bin/podman stop  \
+        -t 0 %i
+ExecStopPost=/usr/bin/podman stop  \
+        -t 0 %i
+PIDFile=/run/user/1001/containers/%i
+Type=forking
 
 [Install]
 WantedBy=default.target
+
 ```
 
 save and exit. Then activate that service: \
@@ -180,7 +182,27 @@ save and exit. Then activate that service: \
 `systemctl --user enable seafile-containers` \
 `systemctl --user start seafile-containers`
 
-And there we go, container running with as little use of root privs as possible.
+And there we go, container running with as little use of root privs as possible.  You might have expected to see an After or Depends for mariadb and memcached, but it seems that systemd user units can't reference system units.  I think I will need to make a script that will just loop until it can do a simple connection to mariadb, and then make a unit for that, and set the After to depend on that script.  I just haven't taken the time yet. &#x20;
+
+
+
+## Installing updates
+
+You might have noticed that the systemd unit runs podman start and podman stop.  This is so that the containers get started and stopped without actually being modified.  So what does that mean?  You won't automatically and unexpectedly get the new version of seafile automatically when just trying to restart. &#x20;
+
+So when you are ready, first do some sort of backup or snapshot so you can return to this point if the update goes bad.  Then:
+
+`systemctl --user stop seafile-containers`&#x20;
+
+`docker-compose down`&#x20;
+
+`docker-compose up --no-start`&#x20;
+
+`systemctl --user start seafile-containers`
+
+Docker-compose down will remove the current containers, and then docker-compose up will rebuild them, including downloading new versions if there is a new version using the tag you selected (12.0-latest is the default). &#x20;
+
+
 
 Not yet addressed concerns:
 
