@@ -436,11 +436,8 @@ cat /root-key > /dev/mapper/root-key
 zfs change-key -o keyformat=raw -o keylocation=/root-key test-rpool
 ```
 
-```
-emacs /etc/initramfs-tools/scripts/local-top/zfs-hybrid-unlock
-```
+Download the zfs-hybrid-unlock script from [https://github.com/crowtrobot/hybrid-zfs-root-unlock/blob/main/zfs-hybrid-unlock](https://github.com/crowtrobot/hybrid-zfs-root-unlock/blob/main/zfs-hybrid-unlock) and save to /etc/initramfs-tools/scripts/local-top/zfs-hybrid-unlock .  Edit the file to make sure that it has the right root\_key\_file and luks\_key\_volume for your system. &#x20;
 
-TODO: Link to the script\
 This simple script will extract the key for zfs from our LUKS volume and put it where zfs expects to find it.
 
 ```
