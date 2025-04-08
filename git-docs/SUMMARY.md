@@ -17,3 +17,4 @@
 * [Linux cluster using pacemaker](linux-cluster-using-pacemaker/README.md)
   * [Creating a Proxmox user for fencing](linux-cluster-using-pacemaker/creating-a-proxmox-user-for-fencing.md)
 * [Switching Seafile to use the Docker version](switching-seafile-to-use-the-docker-version.md)
+* [Install to ZFS root file system without distro installer's help](install-to-zfs-root-file-system-without-distro-installers-help.md)
