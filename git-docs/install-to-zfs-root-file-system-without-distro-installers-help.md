@@ -217,8 +217,8 @@ zfs create -o mountpoint=/var/cache -o com.sun:auto-snapshot=false test-rpool/sy
 zfs create -o mountpoint=/var/lib/nfs -o com.sun:auto-snapshot=false test-rpool/system/var_lib_nfs
 zfs create -o mountpoint=/var/tmp -o com.sun:auto-snapshot=false test-rpool/system/var_tmp
 chmod 1777 /mnt/var/tmp
-zfs create -o mountpoint=/var/lib/nfs test-rpool/system/var_lib_AccountsService
-zfs create -o mountpoint=/var/lib/nfs test-rpool/system/var_lib_NetworkManager
+zfs create -o mountpoint=/var/lib/AccountServices test-rpool/system/var_lib_AccountsService
+zfs create -o mountpoint=/var/lib/NetworkManager test-rpool/system/var_lib_NetworkManager
 zfs create -o com.sun:auto-snapshot=false test-rpool/system/tmp
 chmod 1777 /mnt/tmp
 
