@@ -433,7 +433,7 @@ Make a file of exactly 32 bytes of random data (using tr to make sure none of th
 ```
 tr -d '\000' < /dev/urandom | dd bs=32 count=1 of=/root-key
 cat /root-key > /dev/mapper/root-key
-zfs change-key -o keyformat=raw -o keylocation=/root-key test-rpool
+zfs change-key -o keyformat=raw -o keylocation=file:///root-key test-rpool
 ```
 
 Download the zfs-hybrid-unlock script from [https://github.com/crowtrobot/hybrid-zfs-root-unlock/blob/main/zfs-hybrid-unlock](https://github.com/crowtrobot/hybrid-zfs-root-unlock/blob/main/zfs-hybrid-unlock) and save to /etc/initramfs-tools/scripts/local-top/zfs-hybrid-unlock .  Edit the file to make sure that it has the right root\_key\_file and luks\_key\_volume for your system. &#x20;
