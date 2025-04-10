@@ -219,7 +219,7 @@ zfs create -o mountpoint=/var/tmp -o com.sun:auto-snapshot=false test-rpool/syst
 chmod 1777 /mnt/var/tmp
 zfs create -o mountpoint=/var/lib/AccountServices test-rpool/system/var_lib_AccountsService
 zfs create -o mountpoint=/var/lib/NetworkManager test-rpool/system/var_lib_NetworkManager
-zfs create -o com.sun:auto-snapshot=false test-rpool/system/tmp
+zfs create -o mountpoint=/tmp -o com.sun:auto-snapshot=false test-rpool/system/tmp
 chmod 1777 /mnt/tmp
 
 zfs create -o canmount=off -o mountpoint=none test-rpool/data
