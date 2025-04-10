@@ -486,7 +486,7 @@ And we will add a line for swap in the /etc/fstab, like this:
 After all these changes we will need to update our initrd so it has the current fstab, etc. The kernel-install and ukify we installed set up hooks for themselves so when the new initrd is created, it will automatically trigger the creation of a unified kernel image (UKI), which should automatically be copied to the efi partition, and then the entries in the systemd-boot config updated to match.
 
 ```
-update-initramfs -uk all
+update-initramfs -ck all
 ```
 
 ## &#x20;Reboot into the new OS
