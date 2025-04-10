@@ -431,7 +431,7 @@ root-key UUID="99098cec-a750-47b7-b1a4-2840a87dd847" none luks,initramfs,readonl
 Make a file of exactly 32 bytes of random data (using tr to make sure none of them are null bytes, since one of those caused me trouble).  Then copy that into our LUKS volume, and change the ZFS password to use this file as a raw key (which will replace the temporary password set earlier). &#x20;
 
 ```
-tr -d ‘\000’ < /dev/urandom | dd bs=32 count=1 of=/root-key
+tr -d '\000' < /dev/urandom | dd bs=32 count=1 of=/root-key
 cat /root-key > /dev/mapper/root-key
 zfs change-key -o keyformat=raw -o keylocation=/root-key test-rpool
 ```
