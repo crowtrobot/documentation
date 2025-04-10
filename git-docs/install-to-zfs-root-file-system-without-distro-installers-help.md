@@ -463,8 +463,8 @@ tr -d ‘\000’ < /dev/urandom | dd bs=32 count=1 of=/root-key
 Make the swap space
 
 ```
-cryptsetup luksFormat /dev/sda2 --type=luks2 /dev/root-key
-cryptsetup open /dev/sda2 swap-crypt -d /dev/root-key
+cryptsetup luksFormat /dev/sda2 --type=luks2 /root-key
+cryptsetup open /dev/sda2 swap-crypt -d /root-key
 mkswap /dev/mapper/swap-crypt
 blkid /dev/sda2
 ```
