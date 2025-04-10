@@ -306,6 +306,8 @@ apt install emacs htop zfsutils-linux zfs-initramfs linux-headers-generic \
     linux-image-generic zfs-dkms crytpsetup-initramfs systemd-boot systemd-ukify
 ```
 
+Note: On some systems like KDE Neon there were errors from os-prober and zfs-dkms, but these can be ignored. &#x20;
+
 ### Fix the efi directory in fstab. &#x20;
 
 ```
