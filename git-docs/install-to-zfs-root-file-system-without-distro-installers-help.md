@@ -125,7 +125,7 @@ Use the zpool command to make our zpool (you might need to add -f if this partit
 zpool create -o ashift=12 -o autotrim=on -O acltype=posixacl \
     -O xattr=sa -O dnodesize=auto -O compression=lz4 \ 
     -O normalization=formD -O relatime=on -O canmount=off \
-    -O mountpoint=/ -R /mnt test-rpool /dev/disk/by-id/scsi*part4
+    -O mountpoint=none -R /mnt test-rpool /dev/disk/by-id/scsi*part4
 ```
 
 </details>
@@ -142,7 +142,7 @@ cryptsetup open /dev/sda3 rpool-crypt
 zpool create -o ashift=12 -o autotrim=on -O acltype=posixacl \
   -O xattr=sa -O dnodesize=auto -O compression=lz4 
   -O normalization=formD -O relatime=on -O canmount=off 
-  -O mountpoint=/ -R /mnt test-rpool /dev/mapper/rpool-crypt
+  -O mountpoint=none -R /mnt test-rpool /dev/mapper/rpool-crypt
 ```
 
 </details>
@@ -157,7 +157,7 @@ This is the same as the no encryption but with "-O encryption=on -O keylocation=
 zpool create -o ashift=12 -o autotrim=on -O acltype=posixacl \
   -O xattr=sa -O dnodesize=auto -O compression=lz4 \
   -O normalization=formD -O relatime=on -O canmount=off \
-  -O mountpoint=/ -O encryption=on -O keylocation=prompt \
+  -O mountpoint=none -O encryption=on -O keylocation=prompt \
   -O keyformat=passphrase -R /mnt test-rpool /dev/disk/by-id/scsi*part4
 ```
 
