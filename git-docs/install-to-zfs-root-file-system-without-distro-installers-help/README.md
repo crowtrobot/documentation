@@ -377,7 +377,7 @@ Save and exit
 ### Configure ukify:
 
 ```
-emacs /etc/kernel/ukify.conf
+emacs /etc/kernel/uki.conf
 ```
 
 add:\
@@ -385,6 +385,10 @@ add:\
 `SignKernel=no`
 
 Save and exit.
+
+{% hint style="info" %}
+NOTE:  The manpage for ukify has lots of references to ukify.conf, but to work with kernel install it is /etc/kernel/uki.conf not /etc/kernel/ukify.conf.  Found that out the hard way
+{% endhint %}
 
 ### Configure kernel command line
 
