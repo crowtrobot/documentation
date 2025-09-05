@@ -37,7 +37,7 @@ Sources/references:\
 https://ubuntu.com/blog/how-to-sign-things-for-secure-boot\
 https://wiki.debian.org/SecureBoot https://wiki.gentoo.org/wiki/User:Sakaki/Sakaki%27s\_EFI\_Install\_Guide/Configuring\_Secure\_B
 
-<figure><picture><source srcset="../.gitbook/assets/sb_dark.png" media="(prefers-color-scheme: dark)"><img src="../.gitbook/assets/sb_light.png" alt="" width="563"></picture><figcaption><p>Diagram of the relationship between certificates in Secure Boot</p></figcaption></figure>
+<figure><picture><source srcset="../../.gitbook/assets/sb_dark.png" media="(prefers-color-scheme: dark)"><img src="../../.gitbook/assets/sb_light.png" alt="" width="563"></picture><figcaption><p>Diagram of the relationship between certificates in Secure Boot</p></figcaption></figure>
 
 
 
@@ -69,6 +69,8 @@ Or after the shim has loaded (the shim itself must match the above rules), these
 That's probably fine most of the time, but I did want to dig into the depths here. And how can it claim the "secure" part of the "Secure Boot" name if it allows windows to be booted? :smile:  If I'm going to learn how this all works in depth, I might as well go far enough that nothing but things I've approved will boot. &#x20;
 
 ## The process
+
+These steps have been somewhat simplified with new tools.  If you are running something newer, check out the newer process [here](modernized-steps-for-the-process.md).
 
 Be careful through this. There will be a part where the EFI will only accept signed kernels, but you won't have any kernels signed yet. If you have to reboot during that time you will need to turn Secure Boot off in your EFI setup. Some systems also won't let you put Secure Boot into setup mode while Secure Boot is on, but oddly there also seem to be some that require it to be on. &#x20;
 
@@ -210,7 +212,7 @@ pesign -i systemd-bootx64.efi.unsigned -o systemd-bootx64.efi -s -c "my own kern
 
 ### Step 5 - The kernel and initrd
 
-Now we need to turn the kernel into an EFI executable.  As part of doing this, we will package up the kernel, the initrd, the command line for the kernel, an optional splash screen image, and an optional microcode update file into a single EFI executable.  This is nice because signing this single file covers all those parts.  For details about this process see [https://wiki.archlinux.org/title/Unified\_kernel\_image#Preparing\_a\_unified\_kernel\_image](https://wiki.archlinux.org/title/Unified\_kernel\_image#Preparing\_a\_unified\_kernel\_image)
+Now we need to turn the kernel into an EFI executable.  As part of doing this, we will package up the kernel, the initrd, the command line for the kernel, an optional splash screen image, and an optional microcode update file into a single EFI executable.  This is nice because signing this single file covers all those parts.  For details about this process see [https://wiki.archlinux.org/title/Unified\_kernel\_image#Preparing\_a\_unified\_kernel\_image](https://wiki.archlinux.org/title/Unified_kernel_image#Preparing_a_unified_kernel_image)
 
 Go, get the `prepare-signed-kernels` script from [https://github.com/crowtrobot/sign-kernel-for-secure-boot](https://github.com/crowtrobot/sign-kernel-for-secure-boot) and put it somewhere that makes sense to you (mine is in /root/bin).  If you don't already have ukify.py, you will also need to download that from [https://github.com/systemd/systemd/blob/main/src/ukify/ukify.py](https://github.com/systemd/systemd/blob/main/src/ukify/ukify.py) and put in the same place.  The ukify.py program comes with systemd, but only versions newer than is included in ubuntu 22.04, or Pop!\_OS, or Debian 11, so I had to manually get it for all my test machines.  In the prepare-signed-kernels script, there are some variables you need to set to tell it what the kernel command line should be, where it should find ukify.py, and some other options. &#x20;
 

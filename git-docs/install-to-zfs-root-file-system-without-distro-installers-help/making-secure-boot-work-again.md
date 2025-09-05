@@ -4,15 +4,15 @@ description: Bringing secure boot back with the ZFS root setup.
 
 # Making Secure Boot Work Again
 
-Based on the work in [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md), but with some simplifications because there's new tools in systemd to help. &#x20;
+Based on the work in [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours/), but with some simplifications because there's new tools in systemd to help. &#x20;
 
 ## Make keys and certs and add them to EFI
 
-This is the same as we did in  [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md).
+This is the same as we did in  [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours/).
 
 ## Sign systemd-boot
 
-Also the same as we did in  [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours.md).
+Also the same as we did in  [Make Secure Boot Yours](../protecting-my-laptop-from-offline-attacks/make-secure-boot-yours/).
 
 ## Configure ukify to sign
 
