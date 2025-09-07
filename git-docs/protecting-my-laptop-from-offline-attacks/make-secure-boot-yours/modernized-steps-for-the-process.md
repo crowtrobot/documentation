@@ -49,14 +49,28 @@ sudo sbctl sign /boot/EFI/BOOT/BOOTX64.EFI
 
 Great, now we need the kernels signed.  We want to use UKI (unified kernel image) format kernels so that the initrd and everything else for early boot is getting signed. &#x20;
 
-```
-sudo nano /etc/kernel/install.conf
-```
+Edit /etc/mkinitcpio.d/linux-cachyos.preset and /etc/mkinitcpio.d/linux-cachyos-lts.preset. &#x20;
 
-And add this line
+We want to comment out the "default\_image" line and uncomment the default\_uki line.  Also comment the fallback\_image and uncomment the fallback\_uki line.  You will need to edit these lines to make them point into /boot instead of /efi.  Should look like this:
 
 ```
-layout=uki
+# mkinitcpio preset file for the 'linux-cachyos' package
+
+#ALL_config="/etc/mkinitcpio.conf"
+ALL_kver="/boot/vmlinuz-linux-cachyos"
+
+PRESETS=('default')
+
+#default_config="/etc/mkinitcpio.conf"
+#default_image="/boot/initramfs-linux-cachyos.img"
+default_uki="/boot/EFI/Linux/arch-linux-cachyos.efi"
+#default_options="--splash /usr/share/systemd/bootctl/splash-arch.bmp"
+
+#fallback_config="/etc/mkinitcpio.conf"
+#fallback_image="/boot/initramfs-linux-cachyos-fallback.img"
+fallback_uki="/boot/EFI/Linux/arch-linux-cachyos-fallback.efi"
+fallback_options="-S autodetect"
+
 ```
 
 Make sure that the right kernel command line options are getting used:
@@ -68,9 +82,11 @@ emacs /etc/kernel/cmdline
 And now to re-install the kernels so they get signed
 
 ```
-kernel-install add-all
+update-initramfs
 ```
 
 ## Steps  5, 6 and 7 aren't needed
 
 The old step 5 to switch to installing kernels as UKI images, but we did that as part of step4.  Step 6 and 7 were about automating the signing, but because this is being handled automatically by kernel-install, it is already automated.  &#x20;
+
+With this done your EFI partition will hold the kernel and initrd files, and the UKI versions.  Only the UKI files will be signed for secure boot, which means that secure boot will keep people from modifying the kernel command line. &#x20;
