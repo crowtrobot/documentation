@@ -221,7 +221,7 @@ So we will create these zfs spaces:
 ```
 zfs create zpcachyos/system
 zfs create -o mountpoint=/mnt/efi-backup zpcachyos/system/efi_backup
-zfs create -o encryption=off root-key-backup -V 17M
+zfs create -o encryption=off zpcachyos/system/root-key-backup -V 17M
 ```
 
 Then we will create the backup script:
