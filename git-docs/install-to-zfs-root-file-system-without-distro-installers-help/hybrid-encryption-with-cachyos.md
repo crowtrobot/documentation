@@ -219,8 +219,8 @@ And as a final touch, I decided that it would be a good idea to backup the EFI f
 So we will create these zfs spaces:
 
 ```
-zfs create zpcacyos/system
-zfs create -o mountpoint=/mnt/efi-backup zpcacyos/system/efi_backup
+zfs create zpcachyos/system
+zfs create -o mountpoint=/mnt/efi-backup zpcachyos/system/efi_backup
 zfs create -o encryption=off root-key-backup -V 17M
 ```
 
