@@ -169,6 +169,8 @@ Paste in
 quiet splash rw root=ZFS=zpcachyos/ROOT/cos/root cryptdevice=UUID=96c417e9-3bf1-4838-bd27-fee22b1c0aba:root-key RESUME=/dev/mapper/swap-crypt
 ```
 
+Also, depending on how you configured things, you probably need to put those same additions to the kernel command line in the /etc/sdboot-manage.conf
+
 ## Test reboot
 
 Then we will make a snapshot and then recreate the initrd, and reboot to test.  &#x20;
