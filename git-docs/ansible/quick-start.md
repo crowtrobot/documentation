@@ -180,7 +180,7 @@ So lets run it, from the ansible directory run `ansible-playbook playbooks/insta
 * ansible will ssh to the selected hosts, and gather general information about them that might be needed to run later steps (called gathering facts).  These facts are just another variables available to use, called ansible\_facts
 * ansible SSHs into the hosts whose facts say they are debian or ubuntu, and tells them to:
   * run the equivalent of an apt update
-  * run the equivalent of an apt auto-remove
+  * run the equivalent of an apt autoremove
   * run the equivalent of an apt clean
   * run the equivalent of an apt dist-upgrade
 * Check if the /var/run/reboot-required file exists
