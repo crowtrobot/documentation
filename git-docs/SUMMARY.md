@@ -21,3 +21,5 @@
 * [Install to ZFS root file system without distro installer's help](install-to-zfs-root-file-system-without-distro-installers-help/README.md)
   * [Making Secure Boot Work Again](install-to-zfs-root-file-system-without-distro-installers-help/making-secure-boot-work-again.md)
   * [Hybrid Encryption With CachyOS](install-to-zfs-root-file-system-without-distro-installers-help/hybrid-encryption-with-cachyos.md)
+* [Ansible](ansible/README.md)
+  * [Quick Start](ansible/quick-start.md)
