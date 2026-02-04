@@ -23,3 +23,4 @@
   * [Hybrid Encryption With CachyOS](install-to-zfs-root-file-system-without-distro-installers-help/hybrid-encryption-with-cachyos.md)
 * [Ansible](ansible/README.md)
   * [Quick Start](ansible/quick-start.md)
+  * [The Next Level of Complication](ansible/the-next-level-of-complication.md)
