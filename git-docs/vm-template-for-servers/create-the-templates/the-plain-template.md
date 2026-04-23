@@ -45,8 +45,9 @@ Start the VM, and let it boot up for the first time. You can log in locally, or 
 * `apt update`
 * `apt dist-upgrade`
 * optional: install some utilities that might make the rest of this just a bit easier: `apt install emacs-nox`
-* `apt install sudo qemu-guest-agent cloud-init cloud-initramfs-growroot`&#x20;
+* `apt install sudo qemu-guest-agent cloud-init cloud-initramfs-growroot netplan.io systemd-resolved`
 * `apt clean`
+* `rm /etc/network/interfaces`
 
 Now log out.  This part can't be done in ssh, go to the VM console, log in as root, and run these commands.  This will leave the VM with no users, and root not allowed to log in.  If this works, a user will be created by cloud-init when a VM is deployed from this template. &#x20;
 
@@ -68,6 +69,6 @@ Once the VM has shutdown, we will make a few more changes to the VM:
 
 To test, we will grow the VM disk, and boot the VM. SSH in as your user with your ssh key, and `df -h` to check that the filesystem was grown.&#x20;
 
-Also test with the cloudinit set to a static IP and make sure that works. &#x20;
+Also test with the cloudinit set to a static IP and make sure that works (that it can set the VM's DNS settings). &#x20;
 
 If it all looks good, shutdown the VM and revert to the last snapshot. Then delete all snapshots and convert the VM into a template, and you are done. &#x20;
