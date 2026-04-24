@@ -64,7 +64,6 @@ Start the VM, and let it boot up for the first time. You will need to open the c
 * optional: install some utilities that might make the rest of this just a bit easier: `apt install emacs-nox`
 * `apt install sudo qemu-guest-agent cloud-init netplan.io systemd-resolved`
 * `apt clean`
-* `rm /etc/network/interfaces`
 * edit `/etc/initramfs-tools/conf.d/resume` to "RESUME=none".  This disables resume from hibernate, but that wasn't going to work anyway since the swap space gets a new randomly generated key each boot.  We don't want it to even try since that wastes time during boot, and prints some slightly scary messages. &#x20;
 
 Optional:  Lets fix the LUKS volume names.  By default debian installed it with the encrypted volumes named "sda2\_crypt" and "sda3\_crypt".  Those aren't very descriptive, and if another disk is added, sda3 crypt might be on sdb.  I hate everything about this, so lets rename to swap\_crypt and root\_crypt. &#x20;
@@ -113,6 +112,7 @@ Now log out of SSH if you are logged in with SSH. In the VM console, log in as r
 
 * `userdel debian`
 * `rm -fr /home/debian`
+* `rm /etc/network/interfaces`
 * `passwd -d root`
 * `passwd -l root`
 * `fstrim -va`
