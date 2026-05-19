@@ -2,6 +2,7 @@
 
 * [Intro](README.md)
 * [Syslog Server](syslog_server.md)
+* [Naming Disk To Simplify Management](naming-disk-to-simplify-management.md)
 * [Getting Wildcard DNS working](getting-wildcard-dns-working.md)
 * [VM Template for servers](vm-template-for-servers/README.md)
   * [Create The Templates](vm-template-for-servers/create-the-templates/README.md)
